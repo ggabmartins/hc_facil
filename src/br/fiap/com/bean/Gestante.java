@@ -41,8 +41,9 @@ public class Gestante {
 
     // resumo simples
     public String exibirResumo() {
-        return "Grávida: " + gravida + "\n" +
-                (gravida.equalsIgnoreCase("Sim") ? "Meses de                 gestação: " + mesesGestacao : "");
+        return "Grávida: " + (gravida != null ? gravida : "Não informado") + "\n" +
+                ("Sim".equalsIgnoreCase(gravida) ? "Meses de gestação: " + (mesesGestacao != null ? mesesGestacao : "Não informado") : "");
     }
+
 }
 

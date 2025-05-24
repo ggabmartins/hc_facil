@@ -23,6 +23,8 @@ public class MainPaciente {
         Paciente paciente = null;
 
         // Nome do paciente
+        JOptionPane.showMessageDialog(null,"Ola seja bem vindo (a) ao HC-Facil! \nPara iniciar clique em OK.","Bem-Vindo(a)",
+                JOptionPane.INFORMATION_MESSAGE);
         String nomePaciente = "";
         while (nomePaciente == null || nomePaciente.equals("")) {
             nomePaciente = JOptionPane.showInputDialog(null,
@@ -199,6 +201,8 @@ public class MainPaciente {
             gestante = new Gestante("Não se aplica", 0);
         }
 
+        JOptionPane.showMessageDialog(null,"Vamos para o cadastro do endereco do paciente.\nPara continuar clique em OK",
+                "Cadastro do endereco",JOptionPane.INFORMATION_MESSAGE);
         Endereco endereco = null;
         String rua, numero, bairro, cidade, estado, cep;
 
@@ -246,6 +250,7 @@ public class MainPaciente {
         }
         endereco = new Endereco(rua, numero, bairro, cidade, estado, cep);
 
+        JOptionPane.showMessageDialog(null, "Agora o cadastro do contato do paciente. \nClique em OK para continuar.");
         Contato contato = null;
         try {
             String telefone = JOptionPane.showInputDialog(null,
@@ -258,6 +263,8 @@ public class MainPaciente {
         }
 
         // Histórico Médico
+        JOptionPane.showMessageDialog(null,"Hora de cadastrar o historico medico do paciente.\nClique em OK para conti" +
+                "nuar.","Cadastro do historico medico", JOptionPane.INFORMATION_MESSAGE);
         HistoricoMedico historicoMedico = null;
         String doencas = "Nenhuma", alergias = "Nenhuma", medicamentos = "Nenhum";
         try {
@@ -331,6 +338,8 @@ public class MainPaciente {
         }
 
         // Plano de Saúde
+        JOptionPane.showMessageDialog(null,"Cadastro do plano de saude. \nClique em OK para continuar.", "Plano de saude"
+        ,JOptionPane.INFORMATION_MESSAGE);
         PlanoDeSaude planoDeSaude = null;
         DateTimeFormatter formatoValidade = DateTimeFormatter.ofPattern("MM/yyyy");
         try {
@@ -379,6 +388,8 @@ public class MainPaciente {
                     "Erro ao cadastrar plano de saúde.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
 
+        JOptionPane.showMessageDialog(null, "Agendamento da consulta. \nClique em OK para continuar.","Agendamento da consulta",
+                JOptionPane.INFORMATION_MESSAGE);
         Agendamento agendamento = null;
         while (agendamento == null) {
             try {
@@ -404,9 +415,10 @@ public class MainPaciente {
             }
         }
 
+        JOptionPane.showMessageDialog(null,"Registro da descricao da consulta. \nClique em OK para continuar.",
+                "Descricao da consulta",JOptionPane.INFORMATION_MESSAGE);
         String descricaoConsulta = "";
         String continuar = "";
-
         while (!continuar.equals("S")) {
             try {
                 descricaoConsulta = JOptionPane.showInputDialog(
@@ -441,42 +453,38 @@ public class MainPaciente {
 
         Consulta consulta = new Consulta(agendamento, descricaoConsulta);
 
-        String resumo = "";
+        JOptionPane.showMessageDialog(null,"Cadastro finalizado com sucesso! \nClique em OK para ver o resumo do paciente.",
+                "Cadastro finalizado",JOptionPane.INFORMATION_MESSAGE);
 
-// 1) Resumo da consulta (inclui paciente e agendamento)
+
+        String resumo = "";
         resumo += consulta.exibirResumo();
 
-// 2) Responsável (se existir)
+
         if (responsavel != null) {
             resumo += "\n\n" + responsavel.exibirResumo();
         }
 
-// 3) Gestante
-        if (gestante != null) {
-            resumo += "\n\n" + gestante.exibirResumo();
-        }
 
-// 4) Endereço
+        resumo += "\n\n" + gestante.exibirResumo();
+
+
         if (endereco != null) {
             resumo += "\n\nEndereço:\n" + endereco.exibirResumo();
         }
 
-// 5) Contato
         if (contato != null) {
             resumo += "\n\nContato:\n" + contato.exibirResumo();
         }
 
-// 6) Histórico Médico
         if (historicoMedico != null) {
             resumo += "\n\n" + historicoMedico.exibirResumo();
         }
 
-// 7) Plano de Saúde
         if (planoDeSaude != null) {
             resumo += "\n\n" + planoDeSaude.exibirResumo();
         }
 
-// Exibe tudo
         JOptionPane.showMessageDialog(
                 null,
                 resumo,

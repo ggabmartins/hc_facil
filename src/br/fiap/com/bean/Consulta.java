@@ -2,7 +2,7 @@ package br.fiap.com.bean;
 
 import javax.swing.*;
 
-public class Consulta {
+public class    Consulta {
     private  Agendamento agendamento;
     private String descricao;
 
