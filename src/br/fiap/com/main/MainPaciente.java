@@ -423,7 +423,7 @@ public class MainPaciente {
             }
         }
 
-// --- Verificação de consulta futura ---
+
         LocalDateTime agora = LocalDateTime.now();
         LocalDateTime dataHoraAgendada = LocalDateTime.of(
                 agendamento.getData(),
@@ -432,10 +432,9 @@ public class MainPaciente {
 
         String descricaoConsulta;
         if (dataHoraAgendada.isAfter(agora)) {
-            // Se for no futuro, atribui texto automático
             descricaoConsulta = "Consulta ainda não realizada";
         } else {
-            // Se for no passado ou agora, pede descrição
+
             JOptionPane.showMessageDialog(null, "Registro da descrição da consulta. \nClique em OK para continuar.",
                     "Descrição da consulta", JOptionPane.INFORMATION_MESSAGE);
             descricaoConsulta = "";
@@ -458,30 +457,6 @@ public class MainPaciente {
                     JOptionPane.showMessageDialog(null, "Descrição não pode ficar vazia.",
                             "Erro", JOptionPane.ERROR_MESSAGE);
                 }
-            }
-        }
-
-
-        JOptionPane.showMessageDialog(null, "Registro da descricao da consulta. \nClique em OK para continuar.",
-                "Descricao da consulta", JOptionPane.INFORMATION_MESSAGE);;
-        String continuar = "";
-        while (!continuar.equals("S")) {
-            try {
-                descricaoConsulta = JOptionPane.showInputDialog(null,"Digite a descrição da consulta: " +
-                                "\nSe ainda nao realziou a consulta, digite 'Consulta ainda nao realizada'",
-                                "Descrição da Consulta", JOptionPane.QUESTION_MESSAGE);
-                if (descricaoConsulta == null) {
-                    JOptionPane.showMessageDialog(
-                            null,"Cadastro da consulta cancelado.","Cancelado",JOptionPane.INFORMATION_MESSAGE);
-                    return;
-                }
-                if (descricaoConsulta.length() == 0) {
-                    throw new Exception();
-                }
-
-                continuar = "S";
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null,"Descrição não pode ficar vazia.", "Erro",JOptionPane.ERROR_MESSAGE);
             }
         }
 
