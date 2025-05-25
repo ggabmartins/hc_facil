@@ -121,37 +121,37 @@ public class MainPaciente {
         Responsavel responsavel = null;
         if (idade < 18 || idade > 75) {
             JOptionPane.showMessageDialog(null,
-                    "Paciente tem " + idade + " anos. Cadastro de responsável obrigatório.");
+                    "Paciente tem " + idade + " anos. Cadastro de responsável obrigatório.","Cadastro obrigatório", JOptionPane.INFORMATION_MESSAGE);
 
             String nomeResponsavel = "";
             while (nomeResponsavel == null || nomeResponsavel.equals("")) {
-                nomeResponsavel = JOptionPane.showInputDialog("Nome do responsável:");
+                nomeResponsavel = JOptionPane.showInputDialog(null,"Nome do responsável:", "Nome do Responsável", JOptionPane.QUESTION_MESSAGE);
                 if (nomeResponsavel == null || nomeResponsavel.equals("")) {
-                    JOptionPane.showMessageDialog(null, "Nome do responsável não pode ficar vazio.");
+                    JOptionPane.showMessageDialog(null, "Nome do responsável não pode ficar vazio.","Erro",JOptionPane.ERROR_MESSAGE);
                 }
             }
 
             String parentesco = "";
             while (parentesco == null || parentesco.equals("")) {
-                parentesco = JOptionPane.showInputDialog("Parentesco com o paciente:");
+                parentesco = JOptionPane.showInputDialog(null,"Parentesco com o paciente:", "Parentesco", JOptionPane.QUESTION_MESSAGE);
                 if (parentesco == null || parentesco.equals("")) {
-                    JOptionPane.showMessageDialog(null, "Parentesco não pode ficar vazio.");
+                    JOptionPane.showMessageDialog(null, "Parentesco não pode ficar vazio.","Erro",JOptionPane.ERROR_MESSAGE);
                 }
             }
 
             String telefoneResponsavel = "";
             while (telefoneResponsavel == null || telefoneResponsavel.equals("")) {
-                telefoneResponsavel = JOptionPane.showInputDialog("Telefone do responsável:");
+                telefoneResponsavel = JOptionPane.showInputDialog(null,"Telefone do responsável:", "Telefone do Responsável", JOptionPane.QUESTION_MESSAGE);
                 if (telefoneResponsavel == null || telefoneResponsavel.equals("")) {
-                    JOptionPane.showMessageDialog(null, "Telefone não pode ficar vazio.");
+                    JOptionPane.showMessageDialog(null, "Telefone não pode ficar vazio.","Erro",JOptionPane.ERROR_MESSAGE);
                 }
             }
 
             String emailResponsavel = "";
             while (emailResponsavel == null || emailResponsavel.equals("")) {
-                emailResponsavel = JOptionPane.showInputDialog("Email do responsável:");
+                emailResponsavel = JOptionPane.showInputDialog(null,"Email do responsável:", "Email do responsável", JOptionPane.QUESTION_MESSAGE);
                 if (emailResponsavel == null || emailResponsavel.equals("")) {
-                    JOptionPane.showMessageDialog(null, "Email não pode ficar vazio.");
+                    JOptionPane.showMessageDialog(null, "Email não pode ficar vazio.","Erro",JOptionPane.ERROR_MESSAGE);
                 }
             }
 
