@@ -45,9 +45,16 @@ public class PlanoDeSaude {
 
     //metodos particulares
     public String exibirResumo() {
-        DateTimeFormatter validadeFrmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        if ("Não possui plano de saúde.".equalsIgnoreCase(nomeDoPlano)
+                || nomeDoPlano == null || nomeDoPlano.trim().isEmpty()) {
+            return "Não possui plano de saúde.";
+        }
+        DateTimeFormatter formatoData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String validadeFrmt = (validade != null)
+                ? validade.format(formatoData)
+                : "Não informado";
         return "Plano de Saúde: " + nomeDoPlano +
                 "\nNúmero da carteirinha: " + nmrDaCarteirinha +
-                "\nValidade: " + validade.format(validadeFrmt);
+                "\nValidade: " + validadeFrmt;
     }
 }

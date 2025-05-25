@@ -2,6 +2,7 @@ package br.fiap.com.bean;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 
 public class Paciente {
     private  String nome;
@@ -149,11 +150,13 @@ public class Paciente {
 
     // Métodos particulares
     public String exibirResumo() {
-        return "Nome: " + nome + "\n" +
-                "Data de nascimento: " + dtDeNascimento + "\n" +
-                "Deficiência: " + deficiencia + "\n" +
-                "Precisa de Responsável? " + precisaDeResponsavel +"\n" + msgResponsavel +  "\n" +
-                gestante.exibirResumo();
-    }
+        DateTimeFormatter formatoData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String dataFormatada = (dtDeNascimento != null) ? dtDeNascimento.format(formatoData) : "Não informada";
 
+        String resumoGestante = (gestante != null) ? "\n" + gestante.exibirResumo() : "";
+
+        return "Nome: " + nome + "\n" +
+                "Data de nascimento: " + dataFormatada + "\n" +
+                "Deficiência: " + (deficiencia != null ? deficiencia : "Não informada");
+    }
 }

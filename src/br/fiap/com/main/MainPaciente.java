@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class MainPaciente {
     public static void main(String[] args) {
@@ -23,7 +24,7 @@ public class MainPaciente {
         Paciente paciente = null;
 
         // Nome do paciente
-        JOptionPane.showMessageDialog(null,"Ola seja bem vindo (a) ao HC-Facil! \nPara iniciar clique em OK.","Bem-Vindo(a)",
+        JOptionPane.showMessageDialog(null, "Ola seja bem vindo (a) ao HC-Facil! \nPara iniciar clique em OK.", "Bem-Vindo(a)",
                 JOptionPane.INFORMATION_MESSAGE);
         String nomePaciente = "";
         while (nomePaciente == null || nomePaciente.equals("")) {
@@ -157,17 +158,23 @@ public class MainPaciente {
             responsavel = new Responsavel(nomeResponsavel, parentesco, telefoneResponsavel, emailResponsavel);
         }
 
+        // Declaração inicial da variável gestante
         Gestante gestante = null;
         String respostaGestante = "";
-        if (sexoPaciente.equals("Feminino")) {
+
+// Verifica se o paciente é do sexo feminino para perguntar sobre gestação
+        if (sexoPaciente.equalsIgnoreCase("Feminino")) {
             while (!respostaGestante.equals("S") && !respostaGestante.equals("N")) {
                 String resposta = JOptionPane.showInputDialog(null,
                         "Paciente está gestante? (S/N)", "Gestante", JOptionPane.QUESTION_MESSAGE);
-                if (resposta == null || resposta.equals("")) {
+
+                if (resposta == null || resposta.trim().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Resposta obrigatória.");
                     continue;
                 }
+
                 resposta = resposta.toUpperCase();
+
                 switch (resposta) {
                     case "S":
                         int meses = -1;
@@ -176,23 +183,29 @@ public class MainPaciente {
                                 String mesesStr = JOptionPane.showInputDialog(null,
                                         "Digite quantos meses de gestação (0 a 9):",
                                         "Meses de Gestação", JOptionPane.QUESTION_MESSAGE);
+                                if (mesesStr == null || mesesStr.trim().isEmpty()) {
+                                    JOptionPane.showMessageDialog(null, "Resposta obrigatória.");
+                                    continue;
+                                }
                                 meses = Integer.parseInt(mesesStr);
                                 if (meses < 0 || meses > 9) {
                                     JOptionPane.showMessageDialog(null,
                                             "Número inválido, digite um valor entre 0 e 9.");
                                 }
-                            } catch (Exception e) {
+                            } catch (NumberFormatException e) {
                                 JOptionPane.showMessageDialog(null, "Digite um número válido.");
                                 meses = -1;
                             }
                         }
-                        gestante = new Gestante("Sim", meses);
+                        gestante = new Gestante("Sim", meses);  // Usando construtor correto
                         respostaGestante = "S";
                         break;
+
                     case "N":
                         gestante = new Gestante("Não", 0);
                         respostaGestante = "N";
                         break;
+
                     default:
                         JOptionPane.showMessageDialog(null, "Opção inválida. Digite S ou N.");
                 }
@@ -201,8 +214,8 @@ public class MainPaciente {
             gestante = new Gestante("Não se aplica", 0);
         }
 
-        JOptionPane.showMessageDialog(null,"Vamos para o cadastro do endereco do paciente.\nPara continuar clique em OK",
-                "Cadastro do endereco",JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Vamos para o cadastro do endereco do paciente.\nPara continuar clique em OK",
+                "Cadastro do endereco", JOptionPane.INFORMATION_MESSAGE);
         Endereco endereco = null;
         String rua, numero, bairro, cidade, estado, cep;
 
@@ -263,8 +276,8 @@ public class MainPaciente {
         }
 
         // Histórico Médico
-        JOptionPane.showMessageDialog(null,"Hora de cadastrar o historico medico do paciente.\nClique em OK para conti" +
-                "nuar.","Cadastro do historico medico", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Hora de cadastrar o historico medico do paciente.\nClique em OK para conti" +
+                "nuar.", "Cadastro do historico medico", JOptionPane.INFORMATION_MESSAGE);
         HistoricoMedico historicoMedico = null;
         String doencas = "Nenhuma", alergias = "Nenhuma", medicamentos = "Nenhum";
         try {
@@ -338,8 +351,8 @@ public class MainPaciente {
         }
 
         // Plano de Saúde
-        JOptionPane.showMessageDialog(null,"Cadastro do plano de saude. \nClique em OK para continuar.", "Plano de saude"
-        ,JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Cadastro do plano de saude. \nClique em OK para continuar.", "Plano de saude"
+                , JOptionPane.INFORMATION_MESSAGE);
         PlanoDeSaude planoDeSaude = null;
         DateTimeFormatter formatoValidade = DateTimeFormatter.ofPattern("MM/yyyy");
         try {
@@ -363,14 +376,11 @@ public class MainPaciente {
                                 String validadeStr = JOptionPane.showInputDialog(null,
                                         "Digite a validade da carteirinha (MM/yyyy):",
                                         "Plano de Saúde", JOptionPane.QUESTION_MESSAGE);
-                                validadeCarteira = LocalDate.parse(
-                                        "01/" + validadeStr,
-                                        DateTimeFormatter.ofPattern("dd/MM/yyyy")
-                                );
+                                validadeCarteira = LocalDate.parse("01/" + validadeStr,
+                                        DateTimeFormatter.ofPattern("dd/MM/yyyy"));
                             } catch (Exception ex) {
-                                JOptionPane.showMessageDialog(null,
-                                        "Data inválida. Use o formato MM/yyyy.",
-                                        "Erro", JOptionPane.ERROR_MESSAGE);
+                                JOptionPane.showMessageDialog(null, "Data inválida. Use o formato MM/yyyy.", "Erro",
+                                        JOptionPane.ERROR_MESSAGE);
                             }
                         }
                         break;
@@ -388,8 +398,9 @@ public class MainPaciente {
                     "Erro ao cadastrar plano de saúde.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
 
-        JOptionPane.showMessageDialog(null, "Agendamento da consulta. \nClique em OK para continuar.","Agendamento da consulta",
+        JOptionPane.showMessageDialog(null, "Agendamento da consulta. \nClique em OK para continuar.", "Agendamento da consulta",
                 JOptionPane.INFORMATION_MESSAGE);
+
         Agendamento agendamento = null;
         while (agendamento == null) {
             try {
@@ -399,90 +410,119 @@ public class MainPaciente {
                         "Agendamento de Consulta",
                         JOptionPane.QUESTION_MESSAGE
                 );
+                if (dataStr == null) {
+                    JOptionPane.showMessageDialog(
+                            null, "Agendamento cancelado.", "Cancelado", JOptionPane.INFORMATION_MESSAGE);
+                    return;
+                }
                 LocalDateTime dataHoraConsulta = LocalDateTime.parse(dataStr, formatoDataHora);
-                agendamento = new Agendamento(
-                        dataHoraConsulta.toLocalDate(),
-                        dataHoraConsulta.toLocalTime(),
-                        paciente
-                );
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Formato inválido. Use o padrão dd/MM/yyyy HH:mm para a data e hora.",
-                        "Erro",
-                        JOptionPane.ERROR_MESSAGE
-                );
+                agendamento = new Agendamento(dataHoraConsulta.toLocalDate(), dataHoraConsulta.toLocalTime(), paciente);
+            } catch (DateTimeParseException e) {
+                JOptionPane.showMessageDialog(null, "Formato inválido. Use o padrão dd/MM/yyyy HH:mm para a data e hora.",
+                        "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }
 
-        JOptionPane.showMessageDialog(null,"Registro da descricao da consulta. \nClique em OK para continuar.",
-                "Descricao da consulta",JOptionPane.INFORMATION_MESSAGE);
-        String descricaoConsulta = "";
+// --- Verificação de consulta futura ---
+        LocalDateTime agora = LocalDateTime.now();
+        LocalDateTime dataHoraAgendada = LocalDateTime.of(
+                agendamento.getData(),
+                agendamento.getHorario()
+        );
+
+        String descricaoConsulta;
+        if (dataHoraAgendada.isAfter(agora)) {
+            // Se for no futuro, atribui texto automático
+            descricaoConsulta = "Consulta ainda não realizada";
+        } else {
+            // Se for no passado ou agora, pede descrição
+            JOptionPane.showMessageDialog(null, "Registro da descrição da consulta. \nClique em OK para continuar.",
+                    "Descrição da consulta", JOptionPane.INFORMATION_MESSAGE);
+            descricaoConsulta = "";
+            String continuar = "";
+            while (!continuar.equals("S")) {
+                try {
+                    String descriçãoDaConsulta = JOptionPane.showInputDialog(null, "Digite a descrição da consulta realizada:",
+                            "Descrição da Consulta",JOptionPane.QUESTION_MESSAGE);
+                    if (descriçãoDaConsulta == null) {
+                        JOptionPane.showMessageDialog(null, "Cadastro da consulta cancelado.", "Cancelado",
+                                JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    }
+                    if (descriçãoDaConsulta.trim().isEmpty()) {
+                        throw new Exception("vazio");
+                    }
+                    descricaoConsulta = descriçãoDaConsulta;
+                    continuar = "S";
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Descrição não pode ficar vazia.",
+                            "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+
+
+        JOptionPane.showMessageDialog(null, "Registro da descricao da consulta. \nClique em OK para continuar.",
+                "Descricao da consulta", JOptionPane.INFORMATION_MESSAGE);;
         String continuar = "";
         while (!continuar.equals("S")) {
             try {
-                descricaoConsulta = JOptionPane.showInputDialog(
-                        null,
-                        "Digite a descrição da consulta realizada:",
-                        "Descrição da Consulta",
-                        JOptionPane.QUESTION_MESSAGE
-                );
+                descricaoConsulta = JOptionPane.showInputDialog(null,"Digite a descrição da consulta: " +
+                                "\nSe ainda nao realziou a consulta, digite 'Consulta ainda nao realizada'",
+                                "Descrição da Consulta", JOptionPane.QUESTION_MESSAGE);
                 if (descricaoConsulta == null) {
                     JOptionPane.showMessageDialog(
-                            null,
-                            "Cadastro da consulta cancelado.",
-                            "Cancelado",
-                            JOptionPane.INFORMATION_MESSAGE
-                    );
+                            null,"Cadastro da consulta cancelado.","Cancelado",JOptionPane.INFORMATION_MESSAGE);
                     return;
                 }
                 if (descricaoConsulta.length() == 0) {
                     throw new Exception();
                 }
-                // só chega aqui se digitou algo
+
                 continuar = "S";
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Descrição não pode ficar vazia.",
-                        "Erro",
-                        JOptionPane.ERROR_MESSAGE
-                );
+                JOptionPane.showMessageDialog(null,"Descrição não pode ficar vazia.", "Erro",JOptionPane.ERROR_MESSAGE);
             }
         }
 
-        Consulta consulta = new Consulta(agendamento, descricaoConsulta);
-
-        JOptionPane.showMessageDialog(null,"Cadastro finalizado com sucesso! \nClique em OK para ver o resumo do paciente.",
-                "Cadastro finalizado",JOptionPane.INFORMATION_MESSAGE);
-
-
-        String resumo = "";
-        resumo += consulta.exibirResumo();
+        String resumo = "=== Resumo da Consulta ===\n";
+        resumo += agendamento.exibirResumo();
+        resumo += "\nDescrição: " + descricaoConsulta;
 
 
         if (responsavel != null) {
-            resumo += "\n\n" + responsavel.exibirResumo();
+            resumo += "\n\n=== Responsável pelo Paciente ===\n"
+                    + responsavel.exibirResumo();
         }
 
 
-        resumo += "\n\n" + gestante.exibirResumo();
+        if (gestante != null && "Sim".equalsIgnoreCase(gestante.getGravida())) {
+            resumo += "\n\n=== Informações sobre Gestação ===\n"
+                    + gestante.exibirResumo();
+        }
 
 
         if (endereco != null) {
-            resumo += "\n\nEndereço:\n" + endereco.exibirResumo();
+            resumo += "\n\n=== Endereço do Paciente ===\n"
+                    + endereco.exibirResumo();
         }
+
 
         if (contato != null) {
-            resumo += "\n\nContato:\n" + contato.exibirResumo();
+            resumo += "\n\n=== Contato do Paciente ===\n"
+                    + contato.exibirResumo();
         }
+
 
         if (historicoMedico != null) {
-            resumo += "\n\n" + historicoMedico.exibirResumo();
+            resumo += "\n\n=== Histórico Médico ===\n"
+                    + historicoMedico.exibirResumo();
         }
 
+
         if (planoDeSaude != null) {
-            resumo += "\n\n" + planoDeSaude.exibirResumo();
+            resumo += "\n\n=== Plano de Saúde ===\n"
+                    + planoDeSaude.exibirResumo();
         }
 
         JOptionPane.showMessageDialog(

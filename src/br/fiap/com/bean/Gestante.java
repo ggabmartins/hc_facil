@@ -1,8 +1,6 @@
 package br.fiap.com.bean;
 
 import javax.swing.*;
-import java.time.LocalDate;
-import java.time.Period;
 
 public class Gestante {
     private String gravida;
@@ -18,7 +16,10 @@ public class Gestante {
         this.mesesGestacao = mesesGestacao;
     }
 
-    public Gestante(String sim, int meses) {
+    // Construtor que faltava implementar
+    public Gestante(String gravida, int mesesGestacao) {
+        this.gravida = gravida;
+        this.mesesGestacao = String.valueOf(mesesGestacao);
     }
 
     // getters e setters
@@ -41,9 +42,10 @@ public class Gestante {
 
     // resumo simples
     public String exibirResumo() {
-        return "Grávida: " + (gravida != null ? gravida : "Não informado") + "\n" +
-                ("Sim".equalsIgnoreCase(gravida) ? "Meses de gestação: " + (mesesGestacao != null ? mesesGestacao : "Não informado") : "");
+        if ("Sim".equalsIgnoreCase(gravida)) {
+            return "Grávida: Sim\nMeses de gestação: " + (mesesGestacao != null ? mesesGestacao : "Não informado");
+        } else {
+            return "Grávida: " + (gravida != null ? gravida : "Não informado");
+        }
     }
-
 }
-
